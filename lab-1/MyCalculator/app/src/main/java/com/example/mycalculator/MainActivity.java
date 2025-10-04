@@ -12,12 +12,11 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.StandardCharsets;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btn_dot, btn_clear, btn_plus, btn_minus, btn_mult, btn_div, btn_equal;
-    TextView text_display;
+    Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnDot, btnClear, btnPlus, btnMinus, btnMult, btnDiv, btnEqual;
+    TextView textDisplay;
     boolean justEvaluated = false;
 
     @Override
@@ -35,14 +34,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn8 = (Button) findViewById(R.id.btn8);
         btn9 = (Button) findViewById(R.id.btn9);
         btn0 = (Button) findViewById(R.id.btn0);
-        btn_dot = (Button) findViewById(R.id.btn_dot);
-        btn_plus = (Button) findViewById(R.id.btn_plus);
-        btn_minus = (Button) findViewById(R.id.btn_minus);
-        btn_mult = (Button) findViewById(R.id.btn_mult);
-        btn_div = (Button) findViewById(R.id.btn_div);
-        btn_equal = (Button) findViewById(R.id.btn_equal);
-        btn_clear = (Button) findViewById(R.id.btn_clear);
-        text_display = (TextView) findViewById(R.id.textview_input_display);
+        btnDot = (Button) findViewById(R.id.btn_dot);
+        btnPlus = (Button) findViewById(R.id.btn_plus);
+        btnMinus = (Button) findViewById(R.id.btn_minus);
+        btnMult = (Button) findViewById(R.id.btn_mult);
+        btnDiv = (Button) findViewById(R.id.btn_div);
+        btnEqual = (Button) findViewById(R.id.btn_equal);
+        btnClear = (Button) findViewById(R.id.btn_clear);
+        textDisplay = (TextView) findViewById(R.id.textview_input_display);
 
         setClickListeners();
     }
@@ -58,13 +57,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn8.setOnClickListener(this);
         btn9.setOnClickListener(this);
         btn0.setOnClickListener(this);
-        btn_dot.setOnClickListener(this);
-        btn_plus.setOnClickListener(this);
-        btn_minus.setOnClickListener(this);
-        btn_mult.setOnClickListener(this);
-        btn_div.setOnClickListener(this);
-        btn_equal.setOnClickListener(this);
-        btn_clear.setOnClickListener(this);
+        btnDot.setOnClickListener(this);
+        btnPlus.setOnClickListener(this);
+        btnMinus.setOnClickListener(this);
+        btnMult.setOnClickListener(this);
+        btnDiv.setOnClickListener(this);
+        btnEqual.setOnClickListener(this);
+        btnClear.setOnClickListener(this);
     }
 
     @Override
@@ -118,10 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_equal:
                 String result = null;
                 try {
-                    result = evaluate(text_display.getText().toString());
-                    text_display.setText(result);
+                    result = evaluate(textDisplay.getText().toString());
+                    textDisplay.setText(result);
                 } catch (Exception e) {
-                    text_display.setText("Error");
+                    textDisplay.setText("Error");
                     e.printStackTrace();
                 }
                 justEvaluated = true;
@@ -140,14 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addNumber(String number) {
         if (justEvaluated) {
-            text_display.setText(number);
+            textDisplay.setText(number);
             justEvaluated = false;
             return;
         }
-        text_display.setText(text_display.getText() + number);
+        textDisplay.setText(textDisplay.getText() + number);
     }
 
     private void clearDisplay() {
-        text_display.setText("");
+        textDisplay.setText("");
     }
 }
