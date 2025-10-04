@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
@@ -130,74 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String evaluate(String expression) throws Exception {
-        BigDecimal result = null;
-        StringBuffer currentNum = new StringBuffer();
-        byte lastOp = '+';
-
-        // Get the bytes of the expression, then add a dummy operator at the end.
-        // Doing this ensures that the last operand will be evaluated, whereas it otherwise wouldn't
-        // since the evaluation logic only runs when a new operator is found in the string
-        var expressionBytesOriginal = expression.getBytes(StandardCharsets.UTF_8);
-        var expressionBytes = new byte[expressionBytesOriginal.length + 1];
-        System.arraycopy(expressionBytesOriginal, 0, expressionBytes, 0, expressionBytesOriginal.length);
-        expressionBytes[expressionBytes.length - 1] = '+';
-
-        for (var chr : expressionBytes) {
-            // Handle digits/decimal points
-            if (('0' <= chr && chr <= '9') || (chr == '.')) {
-                currentNum.append((char) chr);
-                continue;
-            }
-
-            System.out.println(currentNum.toString());
-
-            // If the result is unset, then use the first typed number to initialize it
-            if (result == null && (chr != '-' || currentNum.length() > 0)) {
-                result = new BigDecimal(currentNum.toString());
-                currentNum.setLength(0);
-                lastOp = chr;
-                continue;
-            }
-
-            // Handle operators
-            switch (lastOp) {
-                // Apply the operation to the result, and reset the number
-                case '+': {
-                    BigDecimal currentNumDec = new BigDecimal(currentNum.toString());
-                    result = result.add(currentNumDec);
-                    currentNum.setLength(0);
-                    break;
-                }
-                case '-': {
-                    // If the current num string is empty, assume that this is for a negative number
-                    if (currentNum.length() == 0) {
-                        currentNum.append('-');
-                        break;
-                    }
-
-                    BigDecimal currentNumDec = new BigDecimal(currentNum.toString());
-                    result = result.subtract(currentNumDec);
-                    currentNum.setLength(0);
-                    break;
-                }
-                case '*': {
-                    BigDecimal currentNumDec = new BigDecimal(currentNum.toString());
-                    result = result.multiply(currentNumDec);
-                    currentNum.setLength(0);
-                    break;
-                }
-                case '/': {
-                    BigDecimal currentNumDec = new BigDecimal(currentNum.toString());
-                    result = result.divide(currentNumDec, RoundingMode.HALF_UP);
-                    currentNum.setLength(0);
-                    break;
-                }
-                default:
-                    throw new Error("Unexpected input");
-            }
-            lastOp = chr;
-        }
-
+        Expression exp = new ExpressionBuilder(expression).build();
+        BigDecimal result = new BigDecimal(exp.evaluate());
         return result.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toString();
     }
 
