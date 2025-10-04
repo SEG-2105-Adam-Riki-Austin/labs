@@ -70,49 +70,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn1:
-                addNumber("1");
+                addNumber('1');
                 break;
             case R.id.btn2:
-                addNumber("2");
+                addNumber('2');
                 break;
             case R.id.btn3:
-                addNumber("3");
+                addNumber('3');
                 break;
             case R.id.btn4:
-                addNumber("4");
+                addNumber('4');
                 break;
             case R.id.btn5:
-                addNumber("5");
+                addNumber('5');
                 break;
             case R.id.btn6:
-                addNumber("6");
+                addNumber('6');
                 break;
             case R.id.btn7:
-                addNumber("7");
+                addNumber('7');
                 break;
             case R.id.btn8:
-                addNumber("8");
+                addNumber('8');
                 break;
             case R.id.btn9:
-                addNumber("9");
+                addNumber('9');
                 break;
             case R.id.btn0:
-                addNumber("0");
+                addNumber('0');
                 break;
             case R.id.btn_dot:
-                addNumber(".");
+                addNumber('.');
                 break;
             case R.id.btn_plus:
-                addNumber("+");
+                addNumber('+');
                 break;
             case R.id.btn_minus:
-                addNumber("-");
+                addNumber('-');
                 break;
             case R.id.btn_mult:
-                addNumber("*");
+                addNumber('*');
                 break;
             case R.id.btn_div:
-                addNumber("/");
+                addNumber('/');
                 break;
             case R.id.btn_equal:
                 String result = null;
@@ -137,13 +137,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return result.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toString();
     }
 
-    private void addNumber(String number) {
+    private void addNumber(char number) {
+        // If the user presses a new number after a calculation,
+        // assume that they want to start a new one
         if (justEvaluated) {
-            textDisplay.setText(number);
             justEvaluated = false;
-            return;
+            if ('0' <= number && number <= '9') {
+                textDisplay.setText(Character.toString(number));
+                return;
+            }
         }
-        textDisplay.setText(textDisplay.getText() + number);
+        textDisplay.setText(String.format("%s%c", textDisplay.getText(), number));
     }
 
     private void clearDisplay() {
