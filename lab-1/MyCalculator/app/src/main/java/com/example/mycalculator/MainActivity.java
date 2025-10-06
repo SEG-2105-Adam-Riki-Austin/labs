@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String evaluate(String expression) throws Exception {
         Expression exp = new ExpressionBuilder(expression).build();
-        BigDecimal result = new BigDecimal(exp.evaluate());
+        BigDecimal result = BigDecimal.valueOf(exp.evaluate());
         return result.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
