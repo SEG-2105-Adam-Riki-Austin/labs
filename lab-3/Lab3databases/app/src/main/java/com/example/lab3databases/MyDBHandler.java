@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyDBHandler extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "products";
     private static final String COLUMN_ID = "id";
@@ -49,6 +52,35 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_PRODUCT_PRICE, product.getProductPrice());
 
         db.insert(TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public Cursor findProduct(String productName, Double price) {
+        // Assemble query using parameterized queries
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<String> values = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM " + TABLE_NAME + " WHERE 1=1 ");
+        // Case-insensitive substring match
+        if (productName != null) {
+            query.append("AND LOWER(name) LIKE LOWER(?) ");
+            values.add("%" + productName + "%");
+        }
+        // Exact price match
+        if (price != null) {
+            query.append("AND price = ?");
+            values.add(price.toString());
+        }
+
+        return db.rawQuery(query.toString(), values.toArray(new String[0]));
+    }
+
+    public void deleteProduct(String productName) {
+        if (productName == null) return;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] values = {productName};
+
+        // Case-insensitive match
+        db.delete(TABLE_NAME, "LOWER(name) = LOWER(?)", values);
         db.close();
     }
 }

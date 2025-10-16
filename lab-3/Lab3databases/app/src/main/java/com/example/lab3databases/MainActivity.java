@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,45 +52,60 @@ public class MainActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = productName.getText().toString();
-                double price = Double.parseDouble(productPrice.getText().toString());
+                String name = productName.getText().toString().trim();
+                double price = Double.parseDouble(productPrice.getText().toString().trim());
                 Product product = new Product(name, price);
                 dbHandler.addProduct(product);
 
                 productName.setText("");
                 productPrice.setText("");
 
-//                Toast.makeText(MainActivity.this, "Add product", Toast.LENGTH_SHORT).show();
-                viewProducts();
+                viewProducts(dbHandler.getData());
             }
         });
 
         findBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Find product", Toast.LENGTH_SHORT).show();
+                String name = productName.getText().toString().trim();
+                if (name.isEmpty()) name = null;
+                Double price = null;
+                String priceStr = productPrice.getText().toString().trim();
+                if (!priceStr.isEmpty()) price = Double.parseDouble(priceStr);
+
+                productName.setText("");
+                productPrice.setText("");
+
+                viewProducts(dbHandler.findProduct(name, price));
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Delete product", Toast.LENGTH_SHORT).show();
+                String name = productName.getText().toString().trim();
+                if (name.isEmpty()) name = null;
+                dbHandler.deleteProduct(name);
+
+                productName.setText("");
+                productPrice.setText("");
+
+                viewProducts(dbHandler.getData());
             }
         });
 
 
-        viewProducts();
+        viewProducts(dbHandler.getData());
     }
 
-    private void viewProducts() {
+    private void viewProducts(Cursor cursor) {
         productList.clear();
-        Cursor cursor = dbHandler.getData();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
         if (cursor.getCount() == 0) {
             Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                productList.add(cursor.getString(1) + " (" +cursor.getString(2)+")");
+                productList.add(cursor.getString(1) + " (" + formatter.format(cursor.getDouble(2)) + ")");
             }
         }
 
