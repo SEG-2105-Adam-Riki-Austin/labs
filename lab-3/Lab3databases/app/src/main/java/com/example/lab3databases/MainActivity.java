@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
     private void viewProducts() {
         productList.clear();
         Cursor cursor = dbHandler.getData();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
         if (cursor.getCount() == 0) {
             Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                productList.add(cursor.getString(1) + " (" +cursor.getString(2)+")");
+                productList.add(cursor.getString(1) + " (" +formatter.format(cursor.getDouble(2))+")");
             }
         }
 
