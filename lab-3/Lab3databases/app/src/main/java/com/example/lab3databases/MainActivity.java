@@ -80,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Delete product", Toast.LENGTH_SHORT).show();
+                String name = productName.getText().toString().trim();
+                if (name.isEmpty()) name = null;
+                dbHandler.deleteProduct(name);
+                viewProducts(dbHandler.getData());
             }
         });
 

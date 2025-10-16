@@ -71,4 +71,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         return db.rawQuery(query.toString(), values.toArray(new String[0]));
     }
+
+    public void deleteProduct(String productName) {
+        if (productName == null) return;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] values = {productName};
+
+        db.delete(TABLE_NAME, "LOWER(name) = LOWER(?)", values);
+        db.close();
+    }
 }
