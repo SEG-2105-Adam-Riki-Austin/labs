@@ -60,10 +60,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<String> values = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM " + TABLE_NAME + " WHERE 1=1 ");
+        // Case-insensitive substring match
         if (productName != null) {
             query.append("AND LOWER(name) LIKE LOWER(?) ");
             values.add("%" + productName + "%");
         }
+        // Exact price match
         if (price != null) {
             query.append("AND price = ?");
             values.add(price.toString());
@@ -77,6 +79,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String[] values = {productName};
 
+        // Case-insensitive match
         db.delete(TABLE_NAME, "LOWER(name) = LOWER(?)", values);
         db.close();
     }
