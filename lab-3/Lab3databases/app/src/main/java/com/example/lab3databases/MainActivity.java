@@ -73,7 +73,10 @@ public class MainActivity extends AppCompatActivity {
                 String priceStr = productPrice.getText().toString().trim();
                 if (!priceStr.isEmpty()) price = Double.parseDouble(priceStr);
 
-                viewProducts(dbHandler.findProduct(name,price));
+                productName.setText("");
+                productPrice.setText("");
+
+                viewProducts(dbHandler.findProduct(name, price));
             }
         });
 
@@ -83,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
                 String name = productName.getText().toString().trim();
                 if (name.isEmpty()) name = null;
                 dbHandler.deleteProduct(name);
+
+                productName.setText("");
+                productPrice.setText("");
+
                 viewProducts(dbHandler.getData());
             }
         });
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                productList.add(cursor.getString(1) + " (" +formatter.format(cursor.getDouble(2))+")");
+                productList.add(cursor.getString(1) + " (" + formatter.format(cursor.getDouble(2)) + ")");
             }
         }
 
