@@ -1,3 +1,3 @@
-# Lab 1
+# Lab 4
 
-A simple calculator for Android.
+JUnit tests for calculator app.
