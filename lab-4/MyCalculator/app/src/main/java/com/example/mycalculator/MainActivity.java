@@ -7,13 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnDot, btnClear, btnPlus, btnMinus, btnMult, btnDiv, btnEqual;
     TextView textDisplay;
@@ -117,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_equal:
                 String result = null;
                 try {
-                    result = evaluate(textDisplay.getText().toString());
+                    result = MathEval.evaluate(textDisplay.getText().toString());
                     textDisplay.setText(result);
                 } catch (Exception e) {
                     textDisplay.setText("Error");
@@ -129,12 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearDisplay();
                 break;
         }
-    }
-
-    private String evaluate(String expression) throws Exception {
-        Expression exp = new ExpressionBuilder(expression).build();
-        BigDecimal result = BigDecimal.valueOf(exp.evaluate());
-        return result.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
     private void addNumber(char number) {
