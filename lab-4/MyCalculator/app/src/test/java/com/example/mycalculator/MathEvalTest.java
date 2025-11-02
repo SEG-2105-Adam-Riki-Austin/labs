@@ -1,18 +1,36 @@
 package com.example.mycalculator;
 
 import static org.junit.Assert.*;
+import org.junit.Test;
 
+/**
+ * Tests for math evaluation.
+ * <b>Note:</b> Since we only have one method with logic (evaluate),
+ * we have created multiple tests for inputs to the same method.
+ */
 public class MathEvalTest {
-
-    @org.junit.Test
-    public void evalute_validInput_addition() {
-        String result = MathEval.eval("2+2");
-        assertEquals("4", result);
+    @Test
+    public void evaluate_basicAddition_works() {
+        assertEquals("4", MathEval.evaluate("2+2"));
     }
 
-    @org.junit.Test
-    public void evalute_validInput_subtraction() {
-        String result = MathEval.eval("4-2");
-        assertEquals("2", result);
+    @Test
+    public void evaluate_basicSubtraction_works() {
+        assertEquals("0", MathEval.evaluate("2-2"));
+    }
+
+    @Test
+    public void evaluate_basicMultiplication_works() {
+        assertEquals("12", MathEval.evaluate("3*4"));
+    }
+
+    @Test
+    public void evaluate_basicDivision_works() {
+        assertEquals("4", MathEval.evaluate("8/2"));
+    }
+
+    @Test
+    public void evaluate_orderOfOperations_works() {
+        assertEquals("14", MathEval.evaluate("2+3*4"));
     }
 }
