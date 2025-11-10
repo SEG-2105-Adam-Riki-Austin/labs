@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearDisplay();
                 break;
         }
+
     }
 
     private String evaluate(String expression) throws Exception {
