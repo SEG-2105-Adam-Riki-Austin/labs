@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onOpenInGoogleMaps(View view) {
-        EditText teamAddress = (EditText) findViewById(R.id.editTeamPostalAddress);
+        String postalAddress = editTeamPostalAddress.getText().toString().trim();
 
         // Create Uri from strong
         // Use result to create intent
-        Uri gmmIntentUri = Uri.parse("https://google.ca/maps?q=" + Uri.encode(teamAddress.getText().toString()));
+        Uri gmmIntentUri = Uri.parse("https://maps.google.co.in/maps?q=" + Uri.encode(postalAddress));
 
         // Create intent from gmmIntentUri
         // Set action to ACTION_VIEW
