@@ -14,7 +14,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:stretchColumns="*"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +27,7 @@
                 android:id="@+id/flag_ca"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="16dp"
                 app:srcCompat="@drawable/flag_ca" />
 
             <ImageView
@@ -40,17 +40,20 @@
                 android:id="@+id/flag_fr"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginStart="16dp"
                 app:srcCompat="@drawable/flag_fr" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp">
 
             <ImageView
                 android:id="@+id/flag_jp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="16dp"
                 app:srcCompat="@drawable/flag_jp" />
 
             <ImageView
@@ -63,29 +66,33 @@
                 android:id="@+id/flag_sp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginStart="16dp"
                 app:srcCompat="@drawable/flag_sp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/flag_tr"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="16dp"
                 app:srcCompat="@drawable/flag_tr" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/flag_uk"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:srcCompat="@drawable/flag_uk" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/flag_us"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginStart="16dp"
                 app:srcCompat="@drawable/flag_us" />
 
         </TableRow>
