@@ -22,6 +22,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     // Declare views
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     EditText editTeamName, editTeamPostalAddress;
     TextView textHeading, textTeamName, textTeamPostalAddress;
     ImageView imageTeamLogo;
+
+    // Map of flags to string names
+    Map<Integer, String> drawableToName;
 
     // Called when the activity is first created.
     @Override
@@ -51,6 +57,18 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Create map of drawables to names
+        drawableToName = new HashMap<>();
+        drawableToName.put(R.id.flag_ca, "flag_ca");
+        drawableToName.put(R.id.flag_eg, "flag_eg");
+        drawableToName.put(R.id.flag_fr, "flag_fr");
+        drawableToName.put(R.id.flag_jp, "flag_jp");
+        drawableToName.put(R.id.flag_kr, "flag_kr");
+        drawableToName.put(R.id.flag_sp, "flag_sp");
+        drawableToName.put(R.id.flag_tr, "flag_tr");
+        drawableToName.put(R.id.flag_uk, "flag_uk");
+        drawableToName.put(R.id.flag_us, "flag_us");
     }
 
     public void onOpenInGoogleMaps(View view) {
@@ -71,45 +89,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mapIntent);
     }
 
-    private ActivityResultLauncher<Intent> profileActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
+    private ActivityResultLauncher<Intent> profileActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
 
-                @SuppressLint("NonConstantResourceId")
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Intent data = result.getData();
-                        ImageView avatarImage = (ImageView) findViewById(R.id.imageTeamLogo);
+        @SuppressLint("NonConstantResourceId")
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            Intent data = result.getData();
+            ImageView avatarImage = (ImageView) findViewById(R.id.imageTeamLogo);
 
-                        String drawableName = "flag_ca";
-                        int imageId = data.getIntExtra("imageID", R.id.flag_ca);
+            String drawableName = drawableToName.get(data.getIntExtra("imageID", R.id.flag_ca));
+            if (drawableName == null) drawableName = "flag_ca";
 
-                        if (imageId == R.id.flag_ca) {
-                            drawableName = "flag_ca";
-                        } else if (imageId == R.id.flag_eg) {
-                            drawableName = "flag_eg";
-                        } else if (imageId == R.id.flag_fr) {
-                            drawableName = "flag_fr";
-                        } else if (imageId == R.id.flag_jp) {
-                            drawableName = "flag_jp";
-                        } else if (imageId == R.id.flag_kr) {
-                            drawableName = "flag_kr";
-                        } else if (imageId == R.id.flag_sp) {
-                            drawableName = "flag_sp";
-                        } else if (imageId == R.id.flag_tr) {
-                            drawableName = "flag_tr";
-                        } else if (imageId == R.id.flag_uk) {
-                            drawableName = "flag_uk";
-                        } else if (imageId == R.id.flag_us) {
-                            drawableName = "flag_us";
-                        }
+            int resID = getResources().getIdentifier(drawableName, "drawable", getPackageName());
+            avatarImage.setImageResource(resID);
 
-                        int resID = getResources().getIdentifier(drawableName, "drawable", getPackageName());
-                        avatarImage.setImageResource(resID);
-                    }
-                }
-            });
+        }
+    });
 
     public void OnSetAvatarButton(View view) {
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
