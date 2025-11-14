@@ -17,8 +17,11 @@
       formatter = pkgs.alejandra;
 
       devShells.default = pkgs.mkShell {
-        packages = with pkgs; [
-          temurin-bin
+        packages = [
+          pkgs.go
+          pkgs.gopls
+          pkgs.jdt-language-server
+          pkgs.temurin-bin
         ];
       };
     });
