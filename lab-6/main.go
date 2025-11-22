@@ -33,8 +33,8 @@ func worker(id int, jobs <-chan string, results chan<- FetchResult) {
 
 		// Get response size
 		body := resp.Body
+		defer body.Close()
 		size, err := io.Copy(io.Discard, body)
-		body.Close()
 
 		if err != nil {
 			results <- FetchResult{
@@ -72,13 +72,13 @@ func main() {
 	results := make(chan FetchResult, len(urls))
 
 	// Start workers
-	for w := range numWorkers {
-		go worker(w+1, jobs, results)
+	for w := 1; w <= numWorkers; w++ {
+		go worker(w, jobs, results)
 	}
 
 	// Send URLs to fetch
-	for i := range urls {
-		jobs <- urls[i]
+	for _, url := range urls {
+		jobs <- url
 	}
 	close(jobs)
 
